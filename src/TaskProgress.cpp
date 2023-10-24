@@ -13,6 +13,47 @@ bool states_outputs[8] = {false, false, false, false, false, false, false, false
 
 bool state_progress = false;
 
+/**
+ * @brief
+ *
+ */
+void write()
+{
+    for (int i = 0; i < 8; i++)
+    {
+        // ESP_LOGV(TAG, "Num pin output = %d", output_pins[i]);
+
+        digitalWrite(output_pins[i], states_outputs[i]);
+        vTaskDelay(2);
+    }
+}
+
+/**
+ * @brief
+ *
+ */
+void read()
+{
+    for (int i = 0; i < 3; i++)
+    {
+        // ESP_LOGV(TAG, "Num pin input = %d", input_pins[i]);
+
+        states_inputs[i] = digitalRead(input_pins[i]);
+        vTaskDelay(2);
+    }
+}
+
+/**
+ * @brief
+ *
+ */
+void clear()
+{
+    for (int i = 0; i < 8; i++)
+    {
+        states_outputs[i] = false;
+    }
+}
 
 /**
  * @brief
@@ -40,33 +81,25 @@ void TaskProgress(void *pvParameters)
     {
         try
         {
-            unsigned long time_run = millis();
-
-            if(state_progress)
+            if (state_progress)
             {
-                time_run = millis();
-            }
+                unsigned long time_run = millis();
 
-            while(millis() < time_run + TIME_PROGRESS)
-            {
-                for (int i = 0; i < 3; i++)
+                ESP_LOGV(TAG, "### Start command new state outputs");
+
+                while (millis() < time_run + TIME_PROGRESS)
                 {
-                    // ESP_LOGV(TAG, "Num pin input = %d", input_pins[i]);
-
-                    states_inputs[i] = digitalRead(input_pins[i]);
-                    vTaskDelay(2);
+                    read();
+                    write();
                 }
 
-                for (int i = 0; i < 8; i++)
-                {
-                    // ESP_LOGV(TAG, "Num pin output = %d", output_pins[i]);
+                clear();
+                write();
 
-                    digitalWrite(output_pins[i], states_outputs[i]);
-                    vTaskDelay(2);
-                }
+                ESP_LOGV(TAG, "### Stop command new state outputs");
+
+                state_progress = false;
             }
-
-            state_progress = false;
         }
         catch (const std::exception &e)
         {

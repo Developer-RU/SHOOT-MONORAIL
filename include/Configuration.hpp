@@ -16,8 +16,8 @@
  */
 struct Config_WLAN
 {   
-    String sta_ssid         = "Keenetic-8947";
-    String sta_password     = "23111983";
+    String sta_ssid         = DEFAULT_SSID;
+    String sta_password     = DEFAULT_PASS;
 };
 
 
