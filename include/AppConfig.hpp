@@ -69,4 +69,14 @@
 #define STYLE_THEME                 GP_DARK
 
 
+
+
+
+#define TIME_PROGRESS               100 // время выполнения -  которое 100 мсек
+
+
+
+
+
+
 #endif

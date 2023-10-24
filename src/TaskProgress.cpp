@@ -11,6 +11,9 @@ int output_pins[8] = {OUT_PIN_A, OUT_PIN_B, OUT_PIN_C, OUT_PIN_D, OUT_PIN_E, OUT
 bool states_inputs[3] = {false, false, false};
 bool states_outputs[8] = {false, false, false, false, false, false, false, false};
 
+bool state_progress = false;
+
+
 /**
  * @brief
  *
@@ -37,21 +40,33 @@ void TaskProgress(void *pvParameters)
     {
         try
         {
-            for (int i = 0; i < 3; i++)
-            {
-                // ESP_LOGV(TAG, "Num pin input = %d", input_pins[i]);
+            unsigned long time_run = millis();
 
-                states_inputs[i] = digitalRead(input_pins[i]);
-                vTaskDelay(2);
+            if(state_progress)
+            {
+                time_run = millis();
             }
 
-            for (int i = 0; i < 8; i++)
+            while(millis() < time_run + TIME_PROGRESS)
             {
-                // ESP_LOGV(TAG, "Num pin output = %d", output_pins[i]);
+                for (int i = 0; i < 3; i++)
+                {
+                    // ESP_LOGV(TAG, "Num pin input = %d", input_pins[i]);
 
-                digitalWrite(output_pins[i], states_outputs[i]);
-                vTaskDelay(2);
+                    states_inputs[i] = digitalRead(input_pins[i]);
+                    vTaskDelay(2);
+                }
+
+                for (int i = 0; i < 8; i++)
+                {
+                    // ESP_LOGV(TAG, "Num pin output = %d", output_pins[i]);
+
+                    digitalWrite(output_pins[i], states_outputs[i]);
+                    vTaskDelay(2);
+                }
             }
+
+            state_progress = false;
         }
         catch (const std::exception &e)
         {

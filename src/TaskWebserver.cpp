@@ -8,6 +8,7 @@ extern Configuration Config;
 extern bool states_inputs[3];
 extern bool states_outputs[8];
 
+extern bool state_progress;
 
 WebServer server(80);
 
@@ -27,13 +28,13 @@ void handleRoot()
  */
 void handleGet() 
 {
-    String response = "";
+    String message = "";
 
-    response += states_inputs[0];
-    response += states_inputs[1];
-    response += states_inputs[2];
+    message += states_inputs[0];
+    message += states_inputs[1];
+    message += states_inputs[2];
 
-    server.send(200, "text/plain", "{\"data\":" + response + "}");
+    server.send(200, "text/plain", message);
 }
 
 /**
@@ -42,20 +43,21 @@ void handleGet()
  */
 void handleSet() 
 {   
-    String request = server.arg("data");
+    String message = server.arg("data");
 
-    if(request.length() == 8)
+    if(message.length() == 8)
     {
         for (int i = 0; i < 8; i++)
         {
-            states_outputs[i] = request.substring(i, i + 1).toInt();
+            states_outputs[i] = message.substring(i, i + 1).toInt();
         }
-            
-        server.send(200, "text/plain", "OK");        
+
+        state_progress = true;
+        server.send(200, "text/plain", "OK");
     }
     else
     {
-        server.send(500, "text/plain", "ER");
+        server.send(500, "text/plain", "Error request\n\n");
     }
 }
 
@@ -65,7 +67,7 @@ void handleSet()
  */
 void handleNotFound() 
 {
-    String message = "File Not Found\n\n";
+    String message = "Not Found\n\n";
 
     message += "URI: ";
     message += server.uri();

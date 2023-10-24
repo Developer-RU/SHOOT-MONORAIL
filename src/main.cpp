@@ -8,6 +8,8 @@ Configuration Config;
 extern bool states_inputs[3];
 extern bool states_outputs[8];
 
+extern bool state_progress;
+
 
 /**
  * @brief Get the cpuID object
