@@ -45,7 +45,7 @@ void handleSet()
 {   
     String message = server.arg("data");
 
-    if(message.length() == 8)
+    if(message.length() == 8 && !state_progress)
     {
         for (int i = 0; i < 8; i++)
         {

@@ -87,10 +87,11 @@ void TaskProgress(void *pvParameters)
 
                 ESP_LOGV(TAG, "### Start command new state outputs");
 
+                write();
+
                 while (millis() < time_run + TIME_PROGRESS)
                 {
                     read();
-                    write();
                 }
 
                 clear();
