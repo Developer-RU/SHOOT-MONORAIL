@@ -42,7 +42,7 @@ void handleGet()
 /**
  * @brief 
  * 
- * 192.168.3.12/set?data=10101010
+ * 192.168.3.12/set?setpins=10101010
  * 
  */
 void handleSet() 
