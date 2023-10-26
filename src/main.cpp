@@ -74,7 +74,11 @@ void loop()
     if(WiFi.status() != WL_CONNECTED)
     {
         // Reconnect WiFi
-        ESP_LOGI(TAG, "WiFi not connected, reconnecting");
+        ESP_LOGI(TAG, "WiFi not connected, restarting");
+
+        delay(1000);
+
+        ESP.restart();
     }
 
     ESP_LOGV(TAG, "INPUTS: %d%d%d, OUTPUTS: %d%d%d%d%d%d%d%d", states_inputs[0], states_inputs[1], states_inputs[2], states_outputs[0], states_outputs[1],  states_outputs[2], states_outputs[3], states_outputs[4], states_outputs[5], states_outputs[6], states_outputs[7]);
