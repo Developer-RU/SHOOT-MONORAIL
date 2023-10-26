@@ -10,7 +10,7 @@ extern bool states_outputs[8];
 
 extern bool state_progress;
 
-WebServer server(80);
+WebServer server(HTTP_PORT);
 
 
 /**
