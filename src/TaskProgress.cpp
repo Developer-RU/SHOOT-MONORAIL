@@ -101,6 +101,9 @@ void TaskProgress(void *pvParameters)
 
                 state_progress = false;
             }
+
+            // read(); // Бесконечное чтение  входов]
+
         }
         catch (const std::exception &e)
         {

@@ -16,6 +16,7 @@ WebServer server(80);
 /**
  * @brief 
  * 
+ * 192.168.3.12
  */
 void handleRoot() 
 {
@@ -25,6 +26,7 @@ void handleRoot()
 /**
  * @brief 
  * 
+ * 192.168.3.12/get
  */
 void handleGet() 
 {
@@ -40,10 +42,12 @@ void handleGet()
 /**
  * @brief 
  * 
+ * 192.168.3.12/set?data=10101010
+ * 
  */
 void handleSet() 
 {   
-    String message = server.arg("data");
+    String message = server.arg("setpins");
 
     if(message.length() == 8 && !state_progress)
     {
